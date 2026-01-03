@@ -1,6 +1,7 @@
 ﻿using MortgageCalculator.Business;
 using MortgageCalculator.Web.Models;
 using MortgageCalculator.Web.Repos;
+using MortgageCalculator.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,9 +43,9 @@ namespace MortgageCalculator.Web.Controllers
 
         public JsonResult GetMortgageTypes(string term)
         {
-            IMortgageRepo repo = new MortgageRepo();
+            IMortgageService service = new MortgageService();
 
-            var types = repo.GetAllMortgages()
+            var types = service.GetAllMortgages()
                             .Select(m => m.Name)
                             .Distinct()
                             .Where(t => t.ToLower().Contains(term.ToLower()))

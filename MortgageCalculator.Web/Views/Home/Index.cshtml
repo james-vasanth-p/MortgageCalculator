@@ -26,8 +26,8 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.SelectedMortgageType, new { @class = "col-md-4 control-label" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(m => m.SelectedMortgageType, new { @class = "form-control", id = "mortgageType" })
-                        <span class="help-block">Select mortgage type</span>
+                        @Html.DropDownListFor(m => m.SelectedMortgageType, new SelectList(Model.SelectedMortgageType), "Select mortgage", new { @class = "form-control", id = "mortgageType" })
+                        <span class="help-block">Select mortgage</span>
                     </div>
                 </div>
 
@@ -88,11 +88,13 @@
 
 @section scripts{
     <script>
-    $(function () {
-        $("#mortgageType").autocomplete({
-            source: '@Url.Action("GetMortgageTypes", "Home")',
-            minLength: 1
-        });
-    });
+     $(function () {
+     $("#mortgageType").change(function () {
+         var selectedType = $(this).val();
+         $.get('@Url.Action("GetInterestRate", "Home")', { mortgageType: selectedType }, function (data) {
+             $("#InterestRate").val(data.interestRate);
+         });
+     });
+ });
     </script>
 }

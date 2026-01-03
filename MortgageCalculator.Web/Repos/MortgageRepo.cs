@@ -32,6 +32,7 @@ namespace MortgageCalculator.Web.Repos
                         InterestRepayment = (InterestRepayment)Enum.Parse(typeof(InterestRepayment), mortgage.InterestRepayment.ToString()),
                         MortgageId = mortgage.MortgageId,
                         MortgageType = (MortgageType)Enum.Parse(typeof(MortgageType), mortgage.MortgageType.ToString()),
+                        IsActive = mortgage.IsActive
                         //TermsInMonths = mortgage.TermsInMonths
                     }
                     );
