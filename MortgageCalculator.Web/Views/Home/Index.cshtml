@@ -1,0 +1,98 @@
+﻿@model MortgageCalculator.Web.Models.MortgageCalculatorViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Mortgage Calculator</h1>
+    <p class="lead">
+        The Mortgage Calculator helps you:
+        <ul>
+            <li>Choose the right loan for you</li>
+            <li>The Interests and Repayment on your loan</li>
+        </ul>
+    </p>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <fieldset>
+                <legend>Calculator</legend>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.SelectedMortgageType, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.SelectedMortgageType, new { @class = "form-control", id = "mortgageType" })
+                        <span class="help-block">Select mortgage type</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.BorrowedAmount, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.BorrowedAmount, new { @class = "form-control", placeholder = "0.00" })
+                        <span class="help-block">Enter the amount to borrow</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.InterestRate, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.InterestRate, new { @class = "form-control", placeholder = "e.g. 7.5" })
+                        <span class="help-block">Annual interest rate (%)</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LoanDurationYears, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.LoanDurationYears, new { @class = "form-control", placeholder = "Years" })
+                        <span class="help-block">Loan duration in years</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-4">
+                        <button type="submit" class="btn btn-primary">
+                            Calculate
+                        </button>
+                    </div>
+                </div>
+
+                @if (Model.TotalRepayment > 0)
+                {
+                    <hr />
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Total Repayment</label>
+                        <div class="col-md-4">
+                            <p class="form-control-static">@Model.TotalRepayment</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Total Interest Paid</label>
+                        <div class="col-md-4">
+                            <p class="form-control-static">@Model.TotalInterestPaid</p>
+                        </div>
+                    </div>
+                }
+            </fieldset>
+        }
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+    $(function () {
+        $("#mortgageType").autocomplete({
+            source: '@Url.Action("GetMortgageTypes", "Home")',
+            minLength: 1
+        });
+    });
+    </script>
+}
